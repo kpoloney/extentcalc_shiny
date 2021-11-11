@@ -1,6 +1,8 @@
 # Extent Calculator
 
-This is a simple shiny app to calculate linear extent in centimeters. Units are those commonly used by the SFU Archives.
+This is a simple shiny app to calculate linear extent in centimeters. Box types are those commonly used by the SFU Archives.
+
+Partial boxes are calculated as a fraction of the box size based on the total number of files in the box and those in the archival unit being described. 
 
 ## Usage
 
