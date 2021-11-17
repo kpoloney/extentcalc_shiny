@@ -5,29 +5,28 @@ ui <- fluidPage(
   
   h1("Extent Calculator"),
   hr(),
-  h2("Complete boxes"),
-  
-  numericInput("qsmall", label = "Small boxes", value=NA, min=0),
-  numericInput('qstd', label = 'Standard boxes', value=NA, min=0),
-  numericInput('qurc', label = 'URC tote boxes', value=NA, min=0),
-  
-  h2("Partial boxes"),
-  selectInput('part1', label = "Shared box type 1", c("Small", "Standard", "URC")),
-  
-  # Make these sub-columns of part1 - either fixedPage or fluidRow(?)
-  numericInput('totalfiles1', label = "Total files in box", value = NA, min = 0),
-  numericInput('partfiles1', label = "Number of files in series", value = NA, min = 0),
-  
-  selectInput('part2', label = "Shared box type 2", c("Small", "Standard", "URC")),
-  
-  #Make these sub-columns too
-  numericInput('totalfiles2', label = "Total files in box", value = NA, min = 0),
-  numericInput('partfiles2', label = "Number of files in series", value = NA, min = 0),
-  
-  actionButton('calculate', label='Calculate Total', class='btn-primary'),
-  actionButton('reset', label = 'Reset'),
-  textOutput('total'),
-  hr()
+  fluidRow(
+    column(6,
+           h2("Complete boxes"),
+           numericInput("qsmall", label = "Small boxes", value=NA, min=0),
+           numericInput('qstd', label = 'Standard boxes', value=NA, min=0),
+           numericInput('qurc', label = 'URC tote boxes', value=NA, min=0),
+           
+           actionButton('calculate', label='Calculate Total', class='btn-primary'),
+           actionButton('reset', label = 'Reset'),
+           h3(textOutput('total'))
+           ),
+    column(6,
+           h2("Partial boxes"),
+           selectInput('part1', label = "Shared box type 1", c("Small", "Standard", "URC")),
+           numericInput('totalfiles1', label = "Total files in box", value = NA, min = 0),
+           numericInput('partfiles1', label = "Number of files in series", value = NA, min = 0),
+           hr(),
+           selectInput('part2', label = "Shared box type 2", c("Small", "Standard", "URC")),
+           numericInput('totalfiles2', label = "Total files in box", value = NA, min = 0),
+           numericInput('partfiles2', label = "Number of files in series", value = NA, min = 0),
+           )
+    )
 )
 
 server <- function(input, output, session) {
@@ -50,7 +49,8 @@ server <- function(input, output, session) {
                   Small = 6.25*(input$partfiles2/input$totalfiles2),
                   Standard = 12.5*(input$partfiles2/input$totalfiles2),
                   URC = 33.33*(input$partfiles2/input$totalfiles2))
-   total <- paste0((t1+t2+t3+p1+p2)," cm")
+   t <- t1+t2+t3+p1+p2
+   total <- ifelse(t<100, paste0(round(t, digits = 2), " cm"), paste0(round(t/100, digits = 2), " m"))
    return(total)
   }
   
