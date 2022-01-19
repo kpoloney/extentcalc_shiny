@@ -6,6 +6,6 @@ Partial boxes are calculated as a fraction of the box size based on the total nu
 
 ## Usage
 
-The app can be accessed online at https://kpolo.shinyapps.io/extent_calculator/
+The app can be accessed online at https://sfuarchives.shinyapps.io/extent_calculator/
 
 It can be run locally through R using the shiny library and the command `shiny::runApp("app.R")`.
